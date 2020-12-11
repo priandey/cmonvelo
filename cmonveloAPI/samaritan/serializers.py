@@ -4,6 +4,7 @@ from .models import FoundAlert
 
 
 class BikePublicSerializer(serializers.ModelSerializer):
+    picture = serializers.ImageField(allow_null=True, use_url=False)
     class Meta:
         model = Bike
         fields = ['robbed', 'reference', 'robbed_location', 'details', 'picture']

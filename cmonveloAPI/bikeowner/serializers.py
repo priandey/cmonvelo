@@ -14,6 +14,7 @@ class OwnerSerializer(serializers.ModelSerializer):
 class BikeOwnerSerializer(serializers.ModelSerializer):
     owner = OwnerSerializer(many=False, read_only=True)
     alerts = FoundAlertSerializer(many=True, read_only=True)
+    picture = serializers.ImageField(allow_null=True, use_url=False)
 
     class Meta:
         model = Bike

@@ -3,4 +3,5 @@
 cmonveloAPI/*.sqlite3
 cmonveloAPI/media/*
 !cmonveloAPI/media/bikes/default.jpg
+cmonveloAPI/cmonvelo/settings/prod.py
 */assets/node_modules/

@@ -9,11 +9,12 @@ verify_ssl = true
 django = "==3.1.2"
 djangorestframework = "==3.12.1"
 drfpasswordless = "*"
-psycopg2 = "*"
 django-cors-headers = "*"
 pillow = "==8.0.1"
 geopy = "==2.0.0"
 faker = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
