@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # Application definition
 
-AUTH_USER_MODEL = 'bikeowner.Owner'
+AUTH_USER_MODEL = 'bikes.Owner'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -36,8 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'bikeowner',
-    'samaritan',
+    'bikes',
     'rest_framework.authtoken',
     'drfpasswordless'
 ]
@@ -122,8 +121,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # REST FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
     'DEFAULT_AUTHENTICATION_CLASSES':
-        ('rest_framework.authentication.TokenAuthentication',
+        (
+            'rest_framework.authentication.BasicAuthentication',
+            'rest_framework.authentication.SessionAuthentication',
+            'rest_framework.authentication.TokenAuthentication',
          ),
 }
 

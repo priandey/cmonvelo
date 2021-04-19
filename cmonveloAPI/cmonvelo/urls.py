@@ -19,7 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('owner/', include('bikeowner.urls')),
-    path('sam/', include('samaritan.urls')),
-    path('', include('drfpasswordless.urls'))
+    # path('', include('drfpasswordless.urls')),
+    path('', include('bikes.urls')),
+    path('pwl/', include('drfpasswordless.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

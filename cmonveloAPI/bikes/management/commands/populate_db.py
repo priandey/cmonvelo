@@ -1,9 +1,10 @@
-from random import randint, random
+from random import randint, random, uniform
 import os
 from faker import Faker
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 from django.core.files import File
-from bikeowner.models import Owner, Bike
+from ...models import Owner, Bike
 
 class Command(BaseCommand):
     help ='Populate the db with x users, earch one with 1 to 4 bikes associated'
@@ -16,7 +17,13 @@ class Command(BaseCommand):
         bike_count = 0
 
         while bike_count < options['bike_number'][0]:
-            new_owner = Owner.objects.create(username=fake.name(), email=fake.email(), phone=fake.phone_number())
+            try:
+                new_owner = Owner.objects.create(
+                    username=fake.name(),
+                    email=fake.email(),
+                )
+            except IntegrityError:
+                pass
             for i in range(randint(1,4)):
                 bike = Bike.objects.create(
                     owner=new_owner,
@@ -25,10 +32,9 @@ class Command(BaseCommand):
                     reference=fake.isbn10(),
                 )
                 if bike.robbed:
-                    robbed_location = fake.local_latlng(country_code='FR', coords_only=True)
                     bike.robbed_location = {
-                        'latitude': robbed_location[0],
-                        'longitude': robbed_location[1],
+                        'latitude': str(round(uniform(43.604500, 50.954468), 6)),
+                        'longitude': str(round(uniform(-4.486076, 7.2619532), 6)),
                     }
                     bike.set_robbery_date()
                     bike.save()

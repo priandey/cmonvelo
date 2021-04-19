@@ -4,9 +4,7 @@ DEBUG = True
 
 SECRET_KEY = 's4a(dr#dh41_(2l891^*41wpfgerpg=maych#%h09$kc*$1-3&'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:63342",
-]
+CORS_ORIGIN_ALLOW_ALL = True
 
 DATABASES = {
     'default': {
