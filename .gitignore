@@ -6,6 +6,9 @@ cmonveloAPI/media/*
 */assets/node_modules/
 wantedvelo/node_modules/
 
+cmonveloAPI/.env
+cmonveloAPI/cmonvelo/settings/prod.py
+
 # Django #
 *.log
 *.pot
