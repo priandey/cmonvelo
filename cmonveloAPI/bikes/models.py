@@ -28,13 +28,15 @@ class Bike(models.Model):
     robbery_city = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        place = requests.get("https://api-adresse.data.gouv.fr/reverse/", params={
-            "lon": self.robbed_location['longitude'],
-            "lat": self.robbed_location['latitude'],
-        }).json()
-        if len(place['features']) > 0:
-            self.robbery_city = place['features'][0]['properties']['city']
-
+        try:
+            place = requests.get("https://api-adresse.data.gouv.fr/reverse/", params={
+                "lon": self.robbed_location['longitude'],
+                "lat": self.robbed_location['latitude'],
+            }).json()
+            if len(place['features']) > 0:
+                self.robbery_city = place['features'][0]['properties']['city']
+        except KeyError:
+            pass
         super(Bike, self).save(*args, **kwargs)
 
     def __str__(self):
