@@ -27,8 +27,8 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'pk', 'owner', 'alerts']
-        read_only_fields = ['pk', 'owner', 'alerts']
+        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'pk', 'owner', 'alerts']
+        read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
 
 
 class BikePublicSerializer(serializers.ModelSerializer):
@@ -40,5 +40,5 @@ class BikePublicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'date_of_robbery', 'pk', 'owner']
-        read_only_fields = ['pk',]
+        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'date_of_robbery', 'pk', 'owner']
+        read_only_fields = ['pk', 'robbery_city']

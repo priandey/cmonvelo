@@ -15,6 +15,7 @@ geopy = "==2.0.0"
 faker = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
+requests = "==2.25.1"
 
 [requires]
 python_version = "3.7"

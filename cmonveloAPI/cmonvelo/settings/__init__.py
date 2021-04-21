@@ -25,8 +25,6 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 # Application definition
 
-AUTH_USER_MODEL = 'bikes.Owner'
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +38,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drfpasswordless'
 ]
+
+AUTH_USER_MODEL = 'bikes.Owner'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
