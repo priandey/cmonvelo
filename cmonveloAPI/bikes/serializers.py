@@ -22,7 +22,7 @@ class FoundAlertSerializer(serializers.ModelSerializer):
 class BikeOwnerSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True)
     alerts = FoundAlertSerializer(many=True, read_only=True)
-    traits = TraitSerializer(many=True, required=False)
+    traits = serializers.PrimaryKeyRelatedField(queryset=Trait.objects.all(), many=True)
     picture = serializers.ImageField(max_length=None, allow_empty_file=False)
 
     class Meta:
@@ -34,7 +34,7 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
 class BikePublicSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=0)
     name = serializers.CharField(write_only=True, allow_blank=True)
-    traits = TraitSerializer(many=True, required=False)
+    traits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     date_of_robbery = serializers.DateTimeField(format="%d/%m/%y %Hh", read_only=True)
     picture = serializers.ImageField(max_length=None, allow_empty_file=False)
 
