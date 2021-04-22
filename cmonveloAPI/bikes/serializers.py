@@ -22,7 +22,7 @@ class FoundAlertSerializer(serializers.ModelSerializer):
 class BikeOwnerSerializer(serializers.ModelSerializer):
     owner = serializers.PrimaryKeyRelatedField(read_only=True)
     alerts = FoundAlertSerializer(many=True, read_only=True)
-    traits = serializers.PrimaryKeyRelatedField(queryset=Trait.objects.all(), many=True, allow_empty=True, allow_null=True)
+    traits = TraitSerializer(many=True, required=False)
     picture = serializers.ImageField(max_length=None, allow_empty_file=False)
 
     class Meta:
