@@ -134,4 +134,6 @@ REST_FRAMEWORK = {
 PASSWORDLESS_AUTH = {
     'PASSWORDLESS_AUTH_TYPE': ['EMAIL'],
     'PASSWORDLESS_EMAIL_NOREPLY_ADDRESS': 'noreply@wantedvelo.org',
+    'PASSWORDLESS_EMAIL_TOKEN_HTML_TEMPLATE_NAME': "bikes/email.html",
+    'PASSWORDLESS_EMAIL_SUBJECT': "Votre code de connexion WantedVélo"
 }
