@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'bikes',
     'rest_framework.authtoken',
-    'drfpasswordless'
+    'drfpasswordless',
+    'mail_templated'
 ]
 
 AUTH_USER_MODEL = 'bikes.Owner'
