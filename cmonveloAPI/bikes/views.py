@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from geopy.distance import distance as dist
+from mail_templated import send_mail
 
 from .models import Bike, Owner, FoundAlert, Trait
 from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer
@@ -144,7 +145,15 @@ class FoundBikeView(generics.CreateAPIView):
     serializer_class = FoundAlertSerializer
 
     def perform_create(self, serializer):
-        serializer.save(bike=Bike.objects.get(pk=self.kwargs['pk']))
+        my_alert = serializer.save(bike=Bike.objects.get(pk=self.kwargs['pk']))
+        from_email="noreply@wantedvelo.org"
+        send_mail(
+            'bikes/email_alert.html',
+            {'alert': my_alert},
+            from_email,
+            [my_alert.bike.owner.email],
+            subject=f'Votre vélo {my_alert.bike.name} a été repéré !'
+        )
 
 
 class TraitsView(generics.ListCreateAPIView):

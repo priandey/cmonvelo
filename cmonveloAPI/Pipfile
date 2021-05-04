@@ -16,6 +16,7 @@ faker = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
 requests = "==2.25.1"
+django-mail-templated = "*"
 
 [requires]
 python_version = "3.7"
