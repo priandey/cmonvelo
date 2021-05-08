@@ -66,6 +66,21 @@ class RobbedBikesView(generics.ListCreateAPIView):
             except TypeError:
                 raise ValidationError(detail="Invalid authentication Token")
 
+        elif search_type == 'filtered':
+            traits = self.request.query_params.get('traits', default='')
+            if traits != '':
+                traitslist = traits.split(",")
+                print(traitslist)
+                querysets = []
+                for trait in traitslist:
+                    querysets.append(self.queryset.filter(traits__in=[trait]))
+                initial_queryset = querysets.pop(0)
+                queryset = initial_queryset.intersection(*querysets).distinct().order_by('-date_of_robbery')
+                print(queryset)
+            else:
+                raise ValidationError(detail="""Invalid parameters:
+                                                You should specify traits as filter""")
+
         elif search_type == 'near':
             lon = self.request.query_params.get('lon', default="2.349903")  # Default coords are located in Paris
             lat = self.request.query_params.get('lat', default="48.852969")
@@ -81,7 +96,9 @@ class RobbedBikesView(generics.ListCreateAPIView):
             raise ValidationError(detail="""Invalid parameters : 
                                             "search_type" is not correctly filled options are :
                                             - 'all'
-                                            - 'near'""")
+                                            - 'near'
+                                            - 'owned'
+                                            - 'filtered'""")
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
             queryset = queryset.all()
