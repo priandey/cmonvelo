@@ -191,7 +191,7 @@ class TraitsView(generics.ListCreateAPIView):
     """
     model = Trait
     queryset = Trait.objects.all()
-    permission_classes = [permissions.IsAuthenticated,]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,]
     serializer_class = TraitSerializer
 
     def get_queryset(self):
