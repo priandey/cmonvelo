@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, NotFound
 from geopy.distance import distance as dist
 from mail_templated import send_mail
 
@@ -152,7 +152,7 @@ class FoundBikeView(generics.CreateAPIView):
             {'alert': my_alert},
             from_email,
             [my_alert.bike.owner.email],
-            subject=f'Votre vélo {my_alert.bike.name} a été repéré !'
+            subject=f'Votre vélo "{my_alert.bike.name}" a été repéré !'
         )
 
 
@@ -172,11 +172,13 @@ class TraitsView(generics.ListCreateAPIView):
                 POST:
 
     """
+    model = Trait
     queryset = Trait.objects.all()
     permission_classes = [permissions.IsAuthenticated,]
     serializer_class = TraitSerializer
 
-    ''' Disabled for testing purpose
     def get_queryset(self):
         query_string = self.request.query_params.get("qs", default="")
-        return self.queryset.filter(name__istartswith=query_string)'''
+        if query_string == "":
+            return self.model.objects.none()
+        return self.queryset.filter(name__istartswith=query_string)
