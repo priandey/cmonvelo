@@ -70,13 +70,15 @@ class RobbedBikesView(generics.ListCreateAPIView):
             traits = self.request.query_params.get('traits', default='')
             if traits != '':
                 traitslist = traits.split(",")
-                print(traitslist)
                 querysets = []
                 for trait in traitslist:
-                    querysets.append(self.queryset.filter(traits__in=[trait]))
+                    byref = self.queryset.filter(reference__iexact=trait)
+                    if(byref.exists()):
+                        querysets.append(byref)
+                    else:
+                        querysets.append(self.queryset.filter(traits__in=[trait]))
                 initial_queryset = querysets.pop(0)
                 queryset = initial_queryset.intersection(*querysets).distinct().order_by('-date_of_robbery')
-                print(queryset)
             else:
                 raise ValidationError(detail="""Invalid parameters:
                                                 You should specify traits as filter""")
