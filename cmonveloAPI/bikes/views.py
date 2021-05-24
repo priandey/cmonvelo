@@ -165,7 +165,8 @@ class FoundBikeView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         my_alert = serializer.save(bike=Bike.objects.get(pk=self.kwargs['pk']))
-        from_email="noreply@wantedvelo.org"
+        # TODO : Email sending should be handled by a signal
+        from_email = "noreply@wantedvelo.org"
         send_mail(
             'bikes/email_alert.html',
             {'alert': my_alert},
@@ -195,6 +196,9 @@ class TraitsView(generics.ListCreateAPIView):
     queryset = Trait.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,]
     serializer_class = TraitSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(name=serializer.data['name'].lower().capitalize())
 
     def get_queryset(self):
         query_string = self.request.query_params.get("qs", default="")
