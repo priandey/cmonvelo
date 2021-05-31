@@ -24,7 +24,7 @@ class Bike(models.Model):
     reference = models.CharField(max_length=255, unique=True)
     picture = models.ImageField(upload_to="bikes/", null=True, default="bikes/default.jpg", max_length=255)
     robbed_location = models.JSONField(null=True, blank=True)
-    date_of_robbery = models.DateTimeField(null=True, auto_now_add=True)
+    date_of_robbery = models.DateTimeField(null=True)
     robbery_city = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):

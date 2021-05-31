@@ -35,7 +35,7 @@ class BikePublicSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=0)
     name = serializers.CharField(write_only=True, allow_blank=True)
     traits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    date_of_robbery = serializers.DateTimeField(format="%d/%m/%y %Hh", read_only=True)
+    date_of_robbery = serializers.DateTimeField(format="%d/%m/%y %Hh")
     picture = serializers.ImageField(max_length=None, allow_empty_file=False)
 
     class Meta:
