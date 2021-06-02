@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title>Votre code : {{ callback_token }}</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+    <title>Demande de modération WantedVélo</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 
@@ -335,7 +335,7 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td class="logo" style="text-align: center;">
-                                <h1 style="color:#388e3c">Connexion à votre compte WantedVelo</h1>
+                                <h1 style="color:#388e3c">Demande de modération</h1>
                             </td>
                         </tr>
                     </table>
@@ -346,9 +346,15 @@
                         <tr>
                             <td>
                                 <div class="text" style="padding: 0 2.5em; text-align: center;">
-                                    <h2>Votre code de connexion est : {{ callback_token }}</h2>
-                                    <h3>Qu'il s'agisse d'une première connexion ou pas, le déroulement est toujours le même !</h3>
-                                    <h4>A bientôt sur WantedVélo</h4>
+                                    <h2>Une demande de modération a été effectuée sur le vélo identifié : {{ bike.reference }}</h2>
+                                    <h2>Raison du signalement : {{ reason }}</h2>
+                                    <h2>Message complémentaire de signalement : {{ message }}</h2>
+                                    <br />
+                                    <p>Référence du vélo : {{ bike.reference }}</p>
+                                    <p>Nom du vélo : {{ bike.name }}</p>
+                                    <p>Image du vélo : <img src="https://wantedapi.priandey.eu{{ bike.picture.url }}" /></p>
+                                    <p>Caractéristiques : {% for trait in bike.traits.all %}{{ trait.name }} | {% endfor %}</p>
+                                    <p>Action disponible : <a href="https://wantedapi.priandey.eu/moderate/{{ bike.pk }}/{{ token }}">Supprimer cette annonce</a></p>
                                 </div>
                             </td>
                         </tr>

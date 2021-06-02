@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
         <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-        <title>Votre code : {{ callback_token }}</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+        <title>Votre vélo a été vu !</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
 
@@ -321,7 +321,7 @@
     </head>
 
     <body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
-    <center style="width: 100%; background-color: #f1f1f1;">
+    <div style="width: 100%; background-color: #f1f1f1;">
         <div style="display: none; font-size: 1px;max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
             &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
         </div>
@@ -344,7 +344,7 @@
                             <tr>
                                 <td>
                                     <div class="text" style="padding: 0 2.5em; text-align: center;">
-                                        <h2>Connectez-vous à <a href="https://wantedvelo.herokuapp.com/owned">votre espace utilisateur</a> pour en savoir plus</h2>
+                                        <h2>Connectez-vous à <a href="https://wantedvelo.eu/owned">votre espace utilisateur</a> pour en savoir plus</h2>
                                         <h3>Date du repérage : {{ alert.date }}</h3>
                                         <h3>L'utilisateur vous a transmis ces informations : {{ alert.message }}</h3>
                                         <h4>A bientôt sur WantedVélo</h4>
@@ -401,6 +401,6 @@
             </table>
 
         </div>
-    </center>
+    </div>
     </body>
 {% endblock %}

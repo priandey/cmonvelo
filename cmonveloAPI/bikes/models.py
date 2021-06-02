@@ -55,3 +55,7 @@ class FoundAlert(models.Model):
     message = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     coords = models.JSONField()
+
+
+class ModerationToken(models.Model):
+    token = models.CharField(max_length=255)

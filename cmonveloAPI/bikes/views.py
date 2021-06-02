@@ -1,6 +1,9 @@
 import random
+import secrets
 
 from django.db.models.query import QuerySet
+from django.shortcuts import redirect
+from django.conf import settings
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
@@ -8,7 +11,7 @@ from rest_framework.exceptions import ValidationError, NotFound
 from geopy.distance import distance as dist
 from mail_templated import send_mail
 
-from .models import Bike, Owner, FoundAlert, Trait
+from .models import Bike, Owner, FoundAlert, Trait, ModerationToken
 from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer
 from .permissions import IsOwnerOrReadOnly
 
@@ -19,6 +22,50 @@ def VerifyToken(request):
     else:
         return Response(status=401)
 
+@api_view(['POST',])
+def AskModeration(request):
+    try:
+        reason = request.POST['reason']
+        message = request.POST['message']
+        bike_id = int(request.POST['bike'])
+    except KeyError as e:
+        raise ValidationError(f'Il manque des paramètres à votre requête : {e}')
+
+    try:
+        bike = Bike.objects.get(pk=bike_id)
+    except Bike.DoesNotExist:
+        raise NotFound("Ce vélo n'existe pas")
+    moderation_token = secrets.token_urlsafe()
+    ModerationToken.objects.create(token=moderation_token)
+    from_email = "noreply@wantedvelo.org"
+    send_mail(
+        template_name='bikes/email_moderation.html',
+        context={'bike': bike,
+                 'reason': reason,
+                 'message': message,
+                 'token': moderation_token
+                 },
+        from_email=from_email,
+        recipient_list=settings.MODERATORS_EMAILS,
+        subject='Une modération a été demandée'
+    )
+    return Response(status=200)
+
+@api_view(['GET',])
+def ModerateBike(request, pk, token):
+    try:
+        moderation_token = ModerationToken.objects.get(token=token)
+    except ModerationToken.DoesNotExist:
+        return Response(status=403, data="Vous n'avez pas les permissions nécessaires")
+
+    moderation_token.delete()
+
+    try:
+        bike = Bike.objects.get(pk=pk)
+        bike.delete()
+    except Bike.DoesNotExist:
+        return Response(status=404, data="Ce vélo n'existe pas (ou plus)")
+    return Response(status=202, data="Annonce supprimée")
 
 class RobbedBikesView(generics.ListCreateAPIView):
     """
