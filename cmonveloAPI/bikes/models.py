@@ -19,7 +19,6 @@ class Trait(models.Model):
 class Bike(models.Model):
     owner = models.ForeignKey('Owner', on_delete=models.CASCADE, related_name="bikes")
     traits = models.ManyToManyField(Trait, related_name="bikes", blank=True)
-    name = models.CharField(max_length=100, null=False, blank=False)
     robbed = models.BooleanField(default=False, null=False)
     reference = models.CharField(max_length=255, unique=True)
     picture = models.ImageField(upload_to="bikes/", null=True, default="bikes/default.jpg", max_length=255)
@@ -40,7 +39,7 @@ class Bike(models.Model):
         super(Bike, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.reference
 
     def set_robbery_date(self):
         """

@@ -27,18 +27,17 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'pk', 'owner', 'alerts']
+        fields = ['picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'pk', 'owner', 'alerts']
         read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
 
 
 class BikePublicSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=0)
-    name = serializers.CharField(write_only=True, allow_blank=True)
     traits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     date_of_robbery = serializers.DateTimeField(format="%d/%m/%y %Hh")
     picture = serializers.ImageField(max_length=None, allow_empty_file=False)
 
     class Meta:
         model = Bike
-        fields = ['name', 'picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'date_of_robbery', 'pk', 'owner']
+        fields = ['picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'date_of_robbery', 'pk', 'owner']
         read_only_fields = ['pk', 'robbery_city']

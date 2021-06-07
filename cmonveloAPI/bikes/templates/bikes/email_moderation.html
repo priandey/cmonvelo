@@ -351,7 +351,6 @@
                                     <h2>Message complémentaire de signalement : {{ message }}</h2>
                                     <br />
                                     <p>Référence du vélo : {{ bike.reference }}</p>
-                                    <p>Nom du vélo : {{ bike.name }}</p>
                                     <p>Image du vélo : <img src="https://wantedapi.priandey.eu{{ bike.picture.url }}" /></p>
                                     <p>Caractéristiques : {% for trait in bike.traits.all %}{{ trait.name }} | {% endfor %}</p>
                                     <p>Action disponible : <a href="https://wantedapi.priandey.eu/moderate/{{ bike.pk }}/{{ token }}">Supprimer cette annonce</a></p>

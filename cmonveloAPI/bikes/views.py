@@ -219,7 +219,7 @@ class FoundBikeView(generics.CreateAPIView):
             {'alert': my_alert},
             from_email,
             [my_alert.bike.owner.email],
-            subject=f'Votre vélo "{my_alert.bike.name}" a été repéré !'
+            subject=f'Votre vélo "{my_alert.bike.reference}" a été repéré !'
         )
 
 
