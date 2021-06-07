@@ -16,7 +16,7 @@ from mail_templated import send_mail
 
 from .models import Bike, Owner, FoundAlert, Trait, ModerationToken
 from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsInstitution
 
 @api_view(['GET',])
 def VerifyToken(request):
@@ -73,7 +73,7 @@ def ModerateBike(request, pk, token):
 
 class BikeStats(XLSXFileMixin, generics.ListAPIView):
     queryset = Bike.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated, IsInstitution]
     serializer_class = BikeOwnerSerializer
     renderer_classes = [XLSXRenderer, JSONRenderer]
     pagination_class = None
@@ -81,22 +81,34 @@ class BikeStats(XLSXFileMixin, generics.ListAPIView):
     xlsx_use_labels = True
     xlsx_ignore_headers = ['pk',]
     xlsx_boolean_labels = {True: 'Oui', False: 'Non'}
+    xlsx_date_format_mappings = {
+        'date_of_robbery': '%d/%m/%Y %H:%M',
+    }
     xlsx_custom_mappings = {
         'robbed_location': lambda val: str(val)
     }
     filename = 'wantedvelo.xlsx'
 
+    sorting_modes = [
+        'date_of_robbery',
+        '-date_of_robbery',
+        'reference',
+        '-reference',
+        'owner',
+        '-owner',
+        'robbery_city',
+        '-robbery_city'
+    ]
+
     def get_queryset(self):
-        query_params = self.request.query_params
-        cities_param = query_params.get('cities', None)
+        cities = self.request.user.geo_zones
+        order_by = self.request.query_params.get('order_by', default='-date_of_robbery')
 
-        cities = []
+        if order_by not in self.sorting_modes:
+            order_by = "-date_of_robbery"
 
-        if cities_param is not None:
-            for city in cities_param.split(','):
-                cities.append(city.capitalize())
-            print(cities)
-            return self.queryset.filter(robbery_city__in=cities)
+        if cities:
+            return self.queryset.filter(robbery_city__in=cities).order_by(order_by)
         else:
             return self.queryset.none()
 

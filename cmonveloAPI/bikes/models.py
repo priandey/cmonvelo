@@ -8,8 +8,18 @@ from django.contrib.auth.models import AbstractUser
 class Owner(AbstractUser):
     username = models.CharField(max_length=80, blank=True)
     email = models.EmailField(unique=True)
+    is_institution = models.BooleanField(default=False)
+    is_moderation = models.BooleanField(default=False)
+    geographic_zone = models.CharField(max_length=255, null=True, blank=True)
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'email'
+
+    @property
+    def geo_zones(self):
+        if self.is_institution:
+            return self.geographic_zone.split(',')
+        else:
+            return "Cet utilisateur n'est pas une institution"
 
 
 class Trait(models.Model):

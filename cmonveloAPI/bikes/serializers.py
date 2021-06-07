@@ -27,11 +27,12 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['reference', 'owner', 'robbery_city', 'picture', 'traits', 'robbed', 'robbed_location', 'pk', 'alerts']
+        fields = ['reference', 'owner', 'robbery_city', 'picture', 'traits', 'robbed', 'date_of_robbery', 'robbed_location', 'pk', 'alerts']
         read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
         extra_kwargs = {
             'reference': {'label':'Référence'},
             'robbery_city': {'label':'Ville du vol'},
+            'date_of_robbery': {'label':'Date du vol'},
             'robbed': {'label':'Encore déclaré volé'},
             'robbed_location': {'label':'Coordonnées du vol'},
         }
