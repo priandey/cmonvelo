@@ -17,6 +17,7 @@ psycopg2-binary = "*"
 gunicorn = "*"
 requests = "==2.25.1"
 django-mail-templated = "*"
+drf-renderer-xlsx = "*"
 
 [requires]
 python_version = "3.7"

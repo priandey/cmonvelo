@@ -20,16 +20,21 @@ class FoundAlertSerializer(serializers.ModelSerializer):
 
 
 class BikeOwnerSerializer(serializers.ModelSerializer):
-    owner = serializers.PrimaryKeyRelatedField(read_only=True)
-    alerts = FoundAlertSerializer(many=True, read_only=True)
-    traits = serializers.PrimaryKeyRelatedField(queryset=Trait.objects.all(), many=True)
-    picture = serializers.ImageField(max_length=None, allow_empty_file=False)
+    alerts = FoundAlertSerializer(many=True, read_only=True, label="Signalement")
+    traits = serializers.PrimaryKeyRelatedField(queryset=Trait.objects.all(), many=True, label="Caractéristiques")
+    owner = serializers.StringRelatedField(label="Propriétaire")
+    picture = serializers.ImageField(max_length=None, allow_empty_file=False, label="Image")
 
     class Meta:
         model = Bike
-        fields = ['picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'pk', 'owner', 'alerts']
+        fields = ['reference', 'owner', 'robbery_city', 'picture', 'traits', 'robbed', 'robbed_location', 'pk', 'alerts']
         read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
-
+        extra_kwargs = {
+            'reference': {'label':'Référence'},
+            'robbery_city': {'label':'Ville du vol'},
+            'robbed': {'label':'Encore déclaré volé'},
+            'robbed_location': {'label':'Coordonnées du vol'},
+        }
 
 class BikePublicSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=0)

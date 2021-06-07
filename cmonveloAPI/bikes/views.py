@@ -7,7 +7,10 @@ from django.conf import settings
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 from rest_framework.exceptions import ValidationError, NotFound
+from drf_renderer_xlsx.mixins import XLSXFileMixin
+from drf_renderer_xlsx.renderers import XLSXRenderer
 from geopy.distance import distance as dist
 from mail_templated import send_mail
 
@@ -66,6 +69,37 @@ def ModerateBike(request, pk, token):
     except Bike.DoesNotExist:
         return Response(status=404, data="Ce vélo n'existe pas (ou plus)")
     return Response(status=202, data="Annonce supprimée")
+
+
+class BikeStats(XLSXFileMixin, generics.ListAPIView):
+    queryset = Bike.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = BikeOwnerSerializer
+    renderer_classes = [XLSXRenderer, JSONRenderer]
+    pagination_class = None
+
+    xlsx_use_labels = True
+    xlsx_ignore_headers = ['pk',]
+    xlsx_boolean_labels = {True: 'Oui', False: 'Non'}
+    xlsx_custom_mappings = {
+        'robbed_location': lambda val: str(val)
+    }
+    filename = 'wantedvelo.xlsx'
+
+    def get_queryset(self):
+        query_params = self.request.query_params
+        cities_param = query_params.get('cities', None)
+
+        cities = []
+
+        if cities_param is not None:
+            for city in cities_param.split(','):
+                cities.append(city.capitalize())
+            print(cities)
+            return self.queryset.filter(robbery_city__in=cities)
+        else:
+            return self.queryset.none()
+
 
 class RobbedBikesView(generics.ListCreateAPIView):
     """
