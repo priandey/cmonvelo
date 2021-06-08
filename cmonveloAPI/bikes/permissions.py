@@ -18,6 +18,17 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj.owner == request.user
 
 
+class IsModeratorOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        try:
+            perm = request.user.is_moderation
+        except AttributeError: # User is AnonymousUser, therefore not moderation at all
+            perm = False
+        return perm
+
+
 class IsInstitution(permissions.BasePermission):
     message = "Votre compte n'a pas la permission d'accéder à cette ressource. " \
               "Si vous êtes une institution, merci de contacter un administrateur du service"

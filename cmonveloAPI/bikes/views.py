@@ -16,7 +16,7 @@ from mail_templated import send_mail
 
 from .models import Bike, Owner, FoundAlert, Trait, ModerationToken
 from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer, OwnerSerializer
-from .permissions import IsOwnerOrReadOnly, IsInstitution
+from .permissions import IsOwnerOrReadOnly, IsInstitution, IsModeratorOrReadOnly
 
 
 @api_view(['GET',])
@@ -232,7 +232,7 @@ class BikeDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Bike.objects.all()
     lookup_field = "pk"
-    permission_classes = [IsOwnerOrReadOnly,]
+    permission_classes = [IsModeratorOrReadOnly | IsOwnerOrReadOnly]
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.user.is_authenticated and self.request.user == self.get_object().owner:
