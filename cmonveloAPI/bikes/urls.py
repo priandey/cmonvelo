@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import RobbedBikesView, VerifyToken, BikeDetailView, FoundBikeView, TraitsView, AskModeration, ModerateBike, BikeStats
+from .views import RobbedBikesView, VerifyToken, BikeDetailView, FoundBikeView, TraitsView, AskModeration, ModerateBike, BikeStats, GetOwner
 
 urlpatterns = [
     path("", RobbedBikesView.as_view(), name="robbed_bikes"),
     path("ask_moderation/", AskModeration, name="ask_moderation"),
     path("moderate/<int:pk>/<str:token>/", ModerateBike, name="moderate_bike"),
     path("stats/", BikeStats.as_view(), name="bike_stats"),
+    path("user/", GetOwner.as_view(), name="get_owner"),
     path("pwl/verify/", VerifyToken, name="verify_token"),
     path("bike/<int:pk>/", BikeDetailView.as_view(), name="bike_detail"),
     path("bike/<int:pk>/found/", FoundBikeView.as_view(), name="bike_found"),

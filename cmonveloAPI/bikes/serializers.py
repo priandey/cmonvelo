@@ -37,6 +37,7 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
             'robbed_location': {'label':'Coordonnées du vol'},
         }
 
+
 class BikePublicSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=0)
     traits = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
@@ -47,3 +48,9 @@ class BikePublicSerializer(serializers.ModelSerializer):
         model = Bike
         fields = ['picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'date_of_robbery', 'pk', 'owner']
         read_only_fields = ['pk', 'robbery_city']
+
+
+class OwnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Owner
+        fields = ['email', 'is_moderation', 'is_institution', 'geographic_zone']

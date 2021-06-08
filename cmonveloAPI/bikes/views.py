@@ -15,8 +15,9 @@ from geopy.distance import distance as dist
 from mail_templated import send_mail
 
 from .models import Bike, Owner, FoundAlert, Trait, ModerationToken
-from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer
+from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer, OwnerSerializer
 from .permissions import IsOwnerOrReadOnly, IsInstitution
+
 
 @api_view(['GET',])
 def VerifyToken(request):
@@ -24,6 +25,7 @@ def VerifyToken(request):
         return Response(status=200)
     else:
         return Response(status=401)
+
 
 @api_view(['POST',])
 def AskModeration(request):
@@ -53,6 +55,7 @@ def AskModeration(request):
         subject='Une modération a été demandée'
     )
     return Response(status=200)
+
 
 @api_view(['GET',])
 def ModerateBike(request, pk, token):
@@ -298,3 +301,13 @@ class TraitsView(generics.ListCreateAPIView):
         if query_string == "":
             return self.model.objects.none()
         return self.queryset.filter(name__istartswith=query_string)
+
+
+class GetOwner(generics.RetrieveAPIView):
+    queryset = Owner.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = OwnerSerializer
+
+    def get_object(self):
+        user = self.request.user
+        return user
