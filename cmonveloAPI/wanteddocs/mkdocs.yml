@@ -1,0 +1,7 @@
+site_name: WantedVelo API
+site_url: https://wantedvelo.readthedocs.io/en/latest/
+nav:
+  - Home: index.md
+  - About: about.md
+
+theme: readthedocs
