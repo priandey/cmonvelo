@@ -18,6 +18,7 @@ gunicorn = "*"
 requests = "==2.25.1"
 django-mail-templated = "*"
 drf-renderer-xlsx = "*"
+mkdocs = "*"
 
 [requires]
 python_version = "3.7"
