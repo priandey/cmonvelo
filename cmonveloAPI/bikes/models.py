@@ -31,7 +31,7 @@ class Bike(models.Model):
     traits = models.ManyToManyField(Trait, related_name="bikes", blank=True)
     robbed = models.BooleanField(default=False, null=False)
     reference = models.CharField(max_length=255, unique=True)
-    picture = models.ImageField(upload_to="bikes/", null=True, default="bikes/default.jpg", max_length=255)
+    picture = models.ImageField(upload_to="bikes/", null=True, blank=True, default="bikes/default.jpg", max_length=255)
     robbed_location = models.JSONField(null=True, blank=True)
     date_of_robbery = models.DateTimeField(null=True)
     robbery_city = models.CharField(max_length=255, null=True, blank=True)
