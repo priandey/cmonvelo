@@ -3,5 +3,7 @@ site_url: https://wantedvelo.readthedocs.io/en/latest/
 nav:
   - Home: README.md
   - Endpoints reference: endpoints.md
+  - Resources reference: resources.md
+  - Users and permissions reference: users.md
 
 theme: readthedocs

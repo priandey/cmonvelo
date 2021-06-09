@@ -76,7 +76,7 @@ def ModerateBike(request, pk, token):
 
 class BikeStats(XLSXFileMixin, generics.ListAPIView):
     queryset = Bike.objects.all()
-    permission_classes = [permissions.IsAuthenticated, IsInstitution]
+    permission_classes = [permissions.IsAuthenticated & IsInstitution]
     serializer_class = BikeOwnerSerializer
     renderer_classes = [XLSXRenderer, JSONRenderer]
     pagination_class = None

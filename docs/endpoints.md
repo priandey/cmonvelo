@@ -193,6 +193,34 @@ Example request : `https://entrypoint/traits/?qs=t`
 ```
 > Note that traits are capitalized server side
 
+## Found Bike Alert endpoint
+Allow creation of an alert when a bike is spotted. When an alert is created, en email is sent to the owner with alert details.
+
+`POST bike/<int: BikeId>/found/` where `BikeId` matches `bike.pk`
+
+```javascript
+// Expected Body
+{
+    "message": "I've seen your bike !", // Message to the owner of the bike
+    "coords": {         // Longitude and Latitude where the bike have been spotted
+        "lat": "48.852969",
+        "lon": "2.349903"
+    }
+}
+```
+
+```javascript
+// Expected response
+{
+    "message": "I've seen your bike !",
+    "coords": {
+        "lat": "48.852969",
+        "lon": "2.349903"
+    },
+    "date": "09/06/21 à 14h11" // Date is generated server side
+}
+```
+
 ## Authentication endpoints
 Authentication is based on 6-digits token sent via mail.
 Account creation is automatic on first login.
@@ -244,3 +272,13 @@ Another endpoint is provided to ensure authentication is well done and token is 
 
 - Empty response with status code `200` if correctly logged
 - Empty response with status code `401` if not correctly logged
+
+## Statistics endpoint (WIP)
+**For authenticated & [institutional users](users.md#institutional-users) only !**
+
+`GET /stats/`
+
+| `Accept` header | Expected output |
+|-|-|
+|`*/*`| XLSX file with **all** bikes bound to user's geographic zones|
+|`application/json`| JSON with **all** bikes bound to user's geographic zones|
