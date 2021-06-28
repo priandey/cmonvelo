@@ -53,4 +53,4 @@ class BikePublicSerializer(serializers.ModelSerializer):
 class OwnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Owner
-        fields = ['email', 'is_moderation', 'is_institution', 'geographic_zone']
+        fields = ['email', 'is_moderation', 'is_institution', 'is_staff', 'geographic_zone']

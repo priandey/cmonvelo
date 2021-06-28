@@ -16,7 +16,7 @@ from mail_templated import send_mail
 
 from .models import Bike, Owner, FoundAlert, Trait, ModerationToken
 from .serializers import BikeOwnerSerializer, BikePublicSerializer, FoundAlertSerializer, TraitSerializer, OwnerSerializer
-from .permissions import IsOwnerOrReadOnly, IsInstitution, IsModeratorOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsInstitution, IsModeratorOrReadOnly, IsStaff
 
 
 @api_view(['GET',])
@@ -76,7 +76,7 @@ def ModerateBike(request, pk, token):
 
 class BikeStats(XLSXFileMixin, generics.ListAPIView):
     queryset = Bike.objects.all()
-    permission_classes = [permissions.IsAuthenticated, IsInstitution]
+    permission_classes = [permissions.IsAuthenticated & (IsInstitution | IsStaff)]
     serializer_class = BikeOwnerSerializer
     renderer_classes = [XLSXRenderer, JSONRenderer]
     pagination_class = None
@@ -109,6 +109,9 @@ class BikeStats(XLSXFileMixin, generics.ListAPIView):
 
         if order_by not in self.sorting_modes:
             order_by = "-date_of_robbery"
+
+        if self.request.user.is_staff:
+            return self.queryset.order_by(order_by)
 
         if cities:
             return self.queryset.filter(robbery_city__in=cities).order_by(order_by)
