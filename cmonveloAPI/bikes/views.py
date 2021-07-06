@@ -171,11 +171,7 @@ class RobbedBikesView(generics.ListCreateAPIView):
                 traitslist = traits.split(",")
                 querysets = []
                 for trait in traitslist:
-                    byref = self.queryset.filter(reference__iexact=trait)
-                    if(byref.exists()):
-                        querysets.append(byref)
-                    else:
-                        querysets.append(self.queryset.filter(traits__in=[trait]))
+                    querysets.append(self.queryset.filter(traits__in=[trait]))
                 initial_queryset = querysets.pop(0)
                 queryset = initial_queryset.intersection(*querysets).distinct().order_by('-date_of_robbery')
             else:
@@ -192,6 +188,10 @@ class RobbedBikesView(generics.ListCreateAPIView):
                 raise ValidationError(detail="Invalid Parameters : "
                                              "'lon' should be longitude in radians,"
                                              "'lat' should be latitude in radians")
+
+        elif search_type == "by_ref":
+            ref = self.request.query_params.get('qs', default="")
+            queryset = self.queryset.filter(reference__icontains=ref)
 
         else:
             raise ValidationError(detail="""Invalid parameters : 

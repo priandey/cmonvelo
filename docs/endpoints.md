@@ -12,14 +12,16 @@ Query parameters :
 | ------------ | :------------: | :----------: | ------------ |
 | limit | Number | 20 | Maximum number of items |
 | offset | Number | 0 | Position of the cursor (use it for pagination purpose) |
-| search_type | String | 'all' | Type of your request (`'all'`, `filtered`, `'near'` or `'owned'`) |
+| search_type | String | 'all' | Type of your request (`'all'`, `filtered`, `'near'`, `'by_ref'` or `'owned'`) |
 | lon | Number | 2.349903 | Longitude of your point (for `search_type='near'` only) |
 | lat | Number | 48.852969 | Latitude of your point (for `search_type='near'` only) |
 | traits | String | " " | Coma separated list of traits to filter bikes (for `search_type=filtered` only) |
+| qs | String | " " | Querystring to search for bikes by reference (for `search_type=by_ref` only) |
 
 - *search_type = all* : Return all bikes flagged as "robbed" from the service (sorted by date_of_robbery)
 - *search_type = filtered* : Return bikes flagged as "robbed" with matching traits (sorted by date_of_robbery)
 - *search_type = near* : Return bikes robbed near a point, default point is set in Paris.
+- *search_type = by_ref* : Return robbed bikes with reference containing `qs`
 - *search_type = owned* : **For authenticated user only** Return bikes declared by the authenticated account
 
 ```javascript
