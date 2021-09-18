@@ -35,6 +35,7 @@ class Bike(models.Model):
     robbed_location = models.JSONField(null=True, blank=True)
     date_of_robbery = models.DateTimeField(null=True)
     robbery_city = models.CharField(max_length=255, null=True, blank=True)
+    circumstance = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         try:

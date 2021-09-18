@@ -27,7 +27,20 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['reference', 'owner', 'robbery_city', 'picture', 'traits', 'robbed', 'date_of_robbery', 'robbed_location', 'pk', 'alerts']
+        fields = [
+            'reference',
+            'owner',
+            'robbery_city',
+            'picture',
+            'traits',
+            'robbed',
+            'date_of_robbery',
+            'robbed_location',
+            'pk',
+            'alerts',
+            'circumstance',
+        ]
+
         read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
         extra_kwargs = {
             'reference': {'label':'Référence'},
@@ -46,7 +59,18 @@ class BikePublicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Bike
-        fields = ['picture', 'reference', 'traits', 'robbed', 'robbed_location', 'robbery_city', 'date_of_robbery', 'pk', 'owner']
+        fields = [
+            'picture',
+            'reference',
+            'traits',
+            'robbed',
+            'robbed_location',
+            'robbery_city',
+            'date_of_robbery',
+            'pk',
+            'owner',
+            "circumstance",
+        ]
         read_only_fields = ['pk', 'robbery_city']
 
 
