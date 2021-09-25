@@ -15,6 +15,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker(locale='fr-FR')
         bike_count = 0
+        try:
+            Owner.objects.create(
+                username="Pierre",
+                email="dev@wanted.velo",
+                is_institution=True,
+                is_moderation=True,
+                is_staff=True,
+            )
+        except IntegrityError:
+            pass
 
         while bike_count < options['bike_number'][0]:
             try:
@@ -27,9 +37,9 @@ class Command(BaseCommand):
             for i in range(randint(1,4)):
                 bike = Bike.objects.create(
                     owner=new_owner,
-                    name=fake.word(),
                     robbed=random() > 0.5,
                     reference=fake.isbn10(),
+                    circumstances=fake.paragraph(nb_sentences=3),
                 )
                 if bike.robbed:
                     bike.robbed_location = {

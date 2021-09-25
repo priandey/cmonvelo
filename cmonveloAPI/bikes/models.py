@@ -35,16 +35,17 @@ class Bike(models.Model):
     robbed_location = models.JSONField(null=True, blank=True)
     date_of_robbery = models.DateTimeField(null=True)
     robbery_city = models.CharField(max_length=255, null=True, blank=True)
-    circumstance = models.TextField(null=True, blank=True)
+    circumstances = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         try:
-            place = requests.get("https://api-adresse.data.gouv.fr/reverse/", params={
-                "lon": self.robbed_location['longitude'],
-                "lat": self.robbed_location['latitude'],
-            }).json()
-            if len(place['features']) > 0:
-                self.robbery_city = place['features'][0]['properties']['city']
+            if self.robbed_location is not None:
+                place = requests.get("https://api-adresse.data.gouv.fr/reverse/", params={
+                    "lon": self.robbed_location['longitude'],
+                    "lat": self.robbed_location['latitude'],
+                }).json()
+                if len(place['features']) > 0:
+                    self.robbery_city = place['features'][0]['properties']['city']
         except KeyError:
             pass
         super(Bike, self).save(*args, **kwargs)

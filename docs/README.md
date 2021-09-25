@@ -9,7 +9,7 @@ Visit our browsable service [here](https://www.wantedvelo.eu)
 If you wish to integrate our API to your service, see the [public API endpoints](endpoints.md).
 
 Our API is hosted on a small VPS, so if you're planning on having a heavy use of it, consider [reaching out
-to me first.](mailto:riandeypierre@gmail.com)
+to me first.](mailto:support@wantedvelo.eu)
 ## API entry point
 ```
 https://wantedapi.priandey.eu/

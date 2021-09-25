@@ -38,7 +38,7 @@ class BikeOwnerSerializer(serializers.ModelSerializer):
             'robbed_location',
             'pk',
             'alerts',
-            'circumstance',
+            'circumstances',
         ]
 
         read_only_fields = ['pk', 'owner', 'alerts', 'robbery_city']
@@ -69,7 +69,7 @@ class BikePublicSerializer(serializers.ModelSerializer):
             'date_of_robbery',
             'pk',
             'owner',
-            "circumstance",
+            "circumstances",
         ]
         read_only_fields = ['pk', 'robbery_city']
 

@@ -18,7 +18,7 @@ Basic authenticated user.
 ||[All traits endpoints](endpoints.md#traits-endpoints)|[Found bike alert](endpoints.md#found-bike-alert-endpoint)|
 
 ## Institutional users
-Institutional users are registered by administrator of the service. If you are an institution (city administration, association, etc.) [contact me for an accreditation](mailto:riandeypierre@gmail.com).
+Institutional users are registered by administrator of the service. If you are an institution (city administration, association, etc.) [contact me for an accreditation](mailto:support@wantedvelo.eu).
 Institutional users have one or several dedicated geographic zones for which they can access all the relevant data (ex: all bikes theft and found, all alerts, etc.)
 
 They inherit from all authorization of Basic users, but have access to a dedicated endpoint :
