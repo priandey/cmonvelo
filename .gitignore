@@ -3,6 +3,7 @@
 cmonveloAPI/*.sqlite3
 cmonveloAPI/media/*
 !cmonveloAPI/media/bikes/default.jpg
+!cmonveloAPI/cmonvelo/media/bikes/default.jpg
 */assets/node_modules/
 wantedvelo/node_modules/
 
